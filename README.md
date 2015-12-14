@@ -14,5 +14,5 @@ Files contained in this repository:
 3. The actual R script used for analysis.
 2. A [CookBook][1] describing details of the analysis.
 
-[1]: www.smartlab.ws "SmartLab"
+[1]: http://www.smartlab.ws "SmartLab"
 [2]: CookBook.md "CookBook"
