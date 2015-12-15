@@ -1,19 +1,15 @@
-# Introduction #
+## Overview ##
 
-The data being analysis names "Human Activity Recognition Using Smartphones Dataset (Version 1.0)", obtained from [Smartlab - Non Linear Complex Systems Laboratory](www.smartlab.ws) DITEN - Università degli Studi di Genova. Via Opera Pia 11A, I-16145, Genoa, Italy.
+The data being analysis names "Human Activity Recognition Using Smartphones Dataset (Version 1.0)", obtained from [Smartlab - Non Linear Complex Systems Laboratory](http://www.smartlab.ws) DITEN - Università degli Studi di Genova. Via Opera Pia 11A, I-16145, Genoa, Italy.
 
-# Data Description #
+## Experiment description ##
 
-## Activity ##
-There are 6 activities defined for the experiment:  
-1. WALKING  
-2. WALKING_UPSTAIRS  
-3. WALKING_DOWNSTAIRS  
-4. SITTING  
-5. STANDING  
-6. LAYING  
+Quoted from the original readme.txt:  
+> The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, the 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz are captured. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
 
-## Input File ##
+> The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
+
+## Input Files ##
 The following data files are used as input of the analysis: 
 
  File                    | Description
@@ -47,25 +43,25 @@ Subsequently, the body linear acceleration and angular velocity were derived in 
 Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
 
 These signals were used to estimate variables of the feature vector for each pattern:  
-'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.  
 
-tBodyAcc-XYZ
-tGravityAcc-XYZ
-tBodyAccJerk-XYZ
-tBodyGyro-XYZ
-tBodyGyroJerk-XYZ
-tBodyAccMag
-tGravityAccMag
-tBodyAccJerkMag
-tBodyGyroMag
-tBodyGyroJerkMag
-fBodyAcc-XYZ
-fBodyAccJerk-XYZ
-fBodyGyro-XYZ
-fBodyAccMag
-fBodyAccJerkMag
-fBodyGyroMag
-fBodyGyroJerkMag
+* tBodyAcc-XYZ
+* tGravityAcc-XYZ
+* tBodyAccJerk-XYZ
+* tBodyGyro-XYZ
+* tBodyGyroJerk-XYZ
+* tBodyAccMag
+* tGravityAccMag
+* tBodyAccJerkMag
+* tBodyGyroMag
+* tBodyGyroJerkMag
+* fBodyAcc-XYZ
+* fBodyAccJerk-XYZ
+* fBodyGyro-XYZ
+* fBodyAccMag
+* fBodyAccJerkMag
+* fBodyGyroMag
+* fBodyGyroJerkMag
 
 The set of variables that were estimated from these signals are: 
 
@@ -101,7 +97,7 @@ The complete list of variables of each feature vector is available in 'features.
 - Features are normalized and bounded within [-1,1].  
 - Each feature vector is a row on the text file.  
 
-For more information about this dataset contact: [activityrecognition@smartlab.ws] (activityrecognition@smartlab.ws)
+For more information about this dataset contact: activityrecognition@smartlab.ws
 
 ## Analysis step ##
 
@@ -109,10 +105,10 @@ For more information about this dataset contact: [activityrecognition@smartlab.w
 2. Read both training and testing subject files, merge and assign to variable `subject` with column named **Subject**.  
 3. Read both training and testing label files, merge and assign to varible `y` with column named **Y**.  
 4. Read both training and testing measure files, merge and assign to variable `x` with column names defined by "features.txt".  
-5. Associate the label data with corresponding activity descriptions, using "activity_labels.txt".  
-6. Extracts only the measurements on the mean and standard deviation for each measurement.  
-7. Combine the subject, label/activity, and selected measures as a single dataset.  
-8. Meltdown the single data with IDs (**Subject**, **Y**, **Activity**) to obtain a tidy dataset  .
+5. Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `y_labelled`.  
+6. Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `x_selected`.  
+7. Combine the `subject`, `y_labelled`, and `x_selected` as a single dataset.  
+8. Meltdown the single data with IDs (**Subject**, **Y**, **Activity**) to obtain a tidy dataset.  
 9. Calculate the mean of selected measures grouped by key = **Subject**, **Y**, **Activity**.  
 10. Properly rename the new measures, and output the result as text file ("step5_ans.txt")
 
@@ -204,10 +200,6 @@ www.smartlab.ws
 ==================================================================
 ==================================================================
 ==================================================================
-
-The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
-
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
 
 License:
 ========
