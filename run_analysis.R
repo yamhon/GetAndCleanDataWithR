@@ -1,4 +1,4 @@
-setwd("D:/UCI HAR Dataset")
+setwd("D:/GetAndCleanDataWithR/UCI HAR Dataset")
 
 rm(list = ls()) # clear environment
 
@@ -40,6 +40,10 @@ ans <- dcast(melt(cbind(subject, y_labelled, x_selected),
                   ), 
              subject + y + activity ~ features[colIndex, 2], 
              mean)
+
+message ("Renaming columns", appendLF = T)
+colNames <- names(ans)[4:length(names(ans))]
+names(ans) <- c( c("subject", "y", "activity"), paste0("AVG-", colNames) )
 
 message ("Writing file", appendLF = T)
 write.table(ans, file = "step5_ans.txt", row.name = FALSE)
