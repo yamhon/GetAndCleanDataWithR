@@ -42,20 +42,22 @@ library(tidyr)
 library(dplyr)
 
 # step 4b
+keyList <- c("subject", "y", "activity")
 message("Tidying data", appendLF = T)
-melten   <- melt(combined, 
-                 id = c("subject", "y", "activity"))
+melten <- melt(labelled, id = keyList)
 
 # step 5: creates a second, independent tidy data set with the average of each
 # variable for each activity and each subject
 message ("Averaging measures", appendLF = T)
+colIndex <- colIndex - 2
 ans <- dcast(melten, 
              subject + y + activity ~ features[colIndex, 2], 
              mean)
 
 message ("Renaming columns", appendLF = T)
 colNames <- names(ans)[4:length(names(ans))]
-names(ans) <- c( c("subject", "y", "activity"), paste0("AVG-", colNames) )
+names(ans) <- c( keyList, paste0("AVG-", colNames) )
+ans <- melt(ans, id = keyList)
 
 message ("Writing file", appendLF = T)
 write.table(ans, file = "step5_ans.txt", row.name = FALSE)

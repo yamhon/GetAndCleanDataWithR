@@ -95,18 +95,22 @@ Quoted from the original features_info.txt:
 
 For more information about this dataset contact: activityrecognition@smartlab.ws
 
-## Analysis step ##
+## Analysis steps ##
 
-1. Set the working directory.
-2. Read both training and testing subject files, merge and assign to variable `subject` with column named **Subject**.  
-3. Read both training and testing label files, merge and assign to varible `y` with column named **Y**.  
-4. Read both training and testing measure files, merge and assign to variable `x` with column names defined by "features.txt".  
-5. Column-binded the three data set `subject`, `y` and `x`, and assigned to `combined`. __Step1__  
-6. Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `selected`.  __Step2__
-7. Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `labelled`. __Step3__  
-8. Meltdown the single data with IDs (**Subject**, **Y**, **Activity**) to obtain a tidy dataset, and assign to `melten`. __Step4__
-9. Calculate the mean of selected measures grouped by key = **Subject**, **Y**, **Activity**.  
-10. Properly rename the new measures and output the result as text file ("step5_ans.txt")
+0. Required packages: **data.table**, **tidyr**, **dplyr**
+1. Setup environment: 
+    + Set working directory;
+    + Define function `readData` to merge two data files
+2. _(Step1)_ Read and merge the traing and testing data  
+    2.1 Subject: assign to variable `subject` with column named **Subject**.  
+    2.2 Label: assign to varible `y` with column named **Y**.  
+    2.3 Measure: assign to variable `x` with column names defined by "features.txt".  
+    2.4 Column-binded the three data set `subject`, `y` and `x`, and assigned to `combined`.  
+3. _(Step2)_ Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `selected`.  
+4. _(Step3)_ Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `labelled`.  
+5. _(Step4)_ Tidyup the data with keys = (**Subject**, **Y**, **Activity**), and assign to `melten`.  
+6. _(Step5)_ Calculate the mean of selected measures grouped by the key = **Subject**, **Y**, **Activity**.  
+7. Properly rename the new measures and output the result as text file ("step5_ans.txt") 
 
 ## Output columns ##
 
