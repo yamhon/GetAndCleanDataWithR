@@ -2,42 +2,54 @@ setwd("D:/GetAndCleanDataWithR/UCI HAR Dataset")
 
 rm(list = ls()) # clear environment
 
-library(plyr)
-library(dplyr)
-library(data.table)
-
-# step 1: read and merge data
-readData <- function(f, col.names) {
-  message ("Reading data ", f, appendLF = T)
-  train <- read.table(sub("%", f, "train/%_train.txt"), col.names = col.names)
-  test  <- read.table(sub("%", f, "test/%_test.txt")  , col.names = col.names)
-  return(rbind(train, test))
+# step 1a: read and merge data
+readData <- function(datafile, ...) {
+  message ("Reading data: ", datafile, appendLF = T)
+  f1 <- sub("%", datafile, "train/%_train.txt")
+  f2 <- sub("%", datafile, "test/%_test.txt")
+  if (!file.exists(f1)) { stop("File '", f1, "' not found") }
+  if (!file.exists(f2)) { stop("File '", f2, "' not found") }
+  return( rbind( read.table(f1, ...), 
+                 read.table(f2, ...)
+                 )
+          )
 }
 
-# step 1, 4
+# step 1
 features <- read.table("features.txt", col.names = c("col_id", "name"))
-subject  <- readData("subject", c("subject"))
-y        <- readData("Y", c("y"))
-x        <- readData("X", features$name)
+subject  <- readData("subject", col.names = c("subject"))
+y        <- readData("Y", col.names = c("y"))
+x        <- readData("X", col.names = features$name)
+combined <- cbind(subject, y, x)
+
+# step 2
+# feature name translate from 'tBodyAcc-mean()-X' to 'tBodyAcc.mean...X'
+message ("Selecting features: mean/std of original measures", appendLF = T)
+colIndex <- grep("\\.mean\\.|\\.std\\.", colnames(combined))
+selected <- combined[, c(1,2,colIndex)]
+message (length(colIndex), " feature(s) selected", appendLF = T)
 
 # step 3
 message ("Labelling activity", appendLF = T)
-y_labelled <- join(y, 
-                   read.table("activity_labels.txt", 
-                              col.names = c("y", "activity"))
-                   )
+labelled <- merge(selected, 
+                  read.table("activity_labels.txt", 
+                             col.names = c("y", "activity"))
+                  )
 
-# step 2
-message ("Selecting features", appendLF = T)
-colIndex <- grep("mean\\(\\)|std\\(\\)", features$name)
-x_selected <- x[, colIndex]
+#library(plyr)
+library(data.table)
+library(tidyr)
+library(dplyr)
+
+# step 4b
+message("Tidying data", appendLF = T)
+melten   <- melt(combined, 
+                 id = c("subject", "y", "activity"))
 
 # step 5: creates a second, independent tidy data set with the average of each
 # variable for each activity and each subject
-message ("Analysing data", appendLF = T)
-ans <- dcast(melt(cbind(subject, y_labelled, x_selected),
-                  id = c("subject", "y", "activity")
-                  ), 
+message ("Averaging measures", appendLF = T)
+ans <- dcast(melten, 
              subject + y + activity ~ features[colIndex, 2], 
              mean)
 

@@ -101,10 +101,10 @@ For more information about this dataset contact: activityrecognition@smartlab.ws
 2. Read both training and testing subject files, merge and assign to variable `subject` with column named **Subject**.  
 3. Read both training and testing label files, merge and assign to varible `y` with column named **Y**.  
 4. Read both training and testing measure files, merge and assign to variable `x` with column names defined by "features.txt".  
-5. Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `y_labelled`.  
-6. Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `x_selected`.  
-7. Combine the `subject`, `y_labelled`, and `x_selected` as a single dataset.  
-8. Meltdown the single data with IDs (**Subject**, **Y**, **Activity**) to obtain a tidy dataset.  
+5. Column-binded the three data set `subject`, `y` and `x`, and assigned to `combined`. __Step1__  
+6. Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `selected`.  __Step2__
+7. Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `labelled`. __Step3__  
+8. Meltdown the single data with IDs (**Subject**, **Y**, **Activity**) to obtain a tidy dataset, and assign to `melten`. __Step4__
 9. Calculate the mean of selected measures grouped by key = **Subject**, **Y**, **Activity**.  
 10. Properly rename the new measures and output the result as text file ("step5_ans.txt")
 
