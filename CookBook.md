@@ -109,12 +109,11 @@ For more information about this dataset contact: activityrecognition@smartlab.ws
 3. _(Step2)_ Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `selected`.  
     3.1 A total of 66 features are selected
 4. _(Step3)_ Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `labelled`.  
-    3.1 Original activity code (column **Y**) is replaced by the descriptions (column **Activity**).  
+    4.1 Original activity code (column **Y**) is replaced by the descriptions (column **Activity**).  
 5. _(Step4)_ Tidyup the data with keys = (**Subject**, **Activity**), and assign to `melten`.  
 6. _(Step5)_ Calculate the mean of selected measures grouped by the key = **Subject**, **Activity**.  
-7. Output the result
-    7.1 Extract signal domain (Time/Frequency) from the feature name.  
-    7.2 Output the result as text file ("step5_ans.txt") 
+    6.1 Extract signal domain (Time/Frequency) from the feature name.  
+    6.2 Output the result as text file ("step5_ans.txt") 
 
 ## Output columns ##
 
@@ -126,7 +125,8 @@ For more information about this dataset contact: activityrecognition@smartlab.ws
  Feature  | Subset of original features   | character
  Average  | Average value of Feature      | numeric
  
- The full list of list of Feature is given as follow:
+ The full list of list of Feature is given as follow:  
+
   Feature                   | Feature                    | Feature
   ------------------------- | -------------------------- | --------------------------
   BodyAcc-mean()-X          | BodyAcc-mean()-Y           | BodyAcc-mean()-Z          
