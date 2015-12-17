@@ -97,7 +97,7 @@ For more information about this dataset contact: activityrecognition@smartlab.ws
 
 ## Analysis steps ##
 
-0. Required packages: **data.table**
+0. Required packages: **data.table**, **tidyr**, **dplyr**
 1. Setup environment: 
     + Set working directory;
     + Define a function `readData` for _step 1_.  
