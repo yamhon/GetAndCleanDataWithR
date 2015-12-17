@@ -9,7 +9,7 @@ Reference:
 
 ## Experiment description ##
 
-Quoted from the original readme.txt:  
+Quoted from the original readme.txt included in the dataset:  
 > The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, the 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz are captured. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.  
 
 > The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details.  
@@ -29,7 +29,7 @@ The following files are used as input of the analysis:
  test/X_test.txt         | Test set.
  test/y_test.txt         | Test labels.
 
-## Measures ##
+## Features ##
 
 Quoted from the original features_info.txt:  
 > The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
@@ -97,91 +97,55 @@ For more information about this dataset contact: activityrecognition@smartlab.ws
 
 ## Analysis steps ##
 
-0. Required packages: **data.table**, **tidyr**, **dplyr**
+0. Required packages: **data.table**
 1. Setup environment: 
     + Set working directory;
-    + Define function `readData` to merge two data files
+    + Define a function `readData` for _step 1_.  
 2. _(Step1)_ Read and merge the traing and testing data  
     2.1 Subject: assign to variable `subject` with column named **Subject**.  
     2.2 Label: assign to varible `y` with column named **Y**.  
     2.3 Measure: assign to variable `x` with column names defined by "features.txt".  
     2.4 Column-binded the three data set `subject`, `y` and `x`, and assigned to `combined`.  
 3. _(Step2)_ Extracts only the measurements on the mean and standard deviation for each measurement, and assigned to `selected`.  
+    3.1 A total of 66 features are selected
 4. _(Step3)_ Match the activity labels to the corresponding descriptions (using "activity_labels.txt") and assign to `labelled`.  
-5. _(Step4)_ Tidyup the data with keys = (**Subject**, **Y**, **Activity**), and assign to `melten`.  
-6. _(Step5)_ Calculate the mean of selected measures grouped by the key = **Subject**, **Y**, **Activity**.  
-7. Properly rename the new measures and output the result as text file ("step5_ans.txt") 
+    3.1 Original activity code (column **Y**) is replaced by the descriptions (column **Activity**).  
+5. _(Step4)_ Tidyup the data with keys = (**Subject**, **Activity**), and assign to `melten`.  
+6. _(Step5)_ Calculate the mean of selected measures grouped by the key = **Subject**, **Activity**.  
+7. Output the result
+    7.1 Extract signal domain (Time/Frequency) from the feature name.  
+    7.2 Output the result as text file ("step5_ans.txt") 
 
 ## Output columns ##
 
- Column                          | Meaning                                  | Type
- ------------------------------- | ---------------------------------------- | -------------
- Subject                         | ID of the experiment subject             | Factor (int)
- Y                               | Activity label                           | Factor (int)
- Activity                        | Activity description                     | Factor (char)
- AVG-fBodyAcc-mean()-X           | Average of "fBodyAcc-mean()-X"           | Numeric
- AVG-fBodyAcc-mean()-Y           | Average of "fBodyAcc-mean()-Y"           | Numeric
- AVG-fBodyAcc-mean()-Z           | Average of "fBodyAcc-mean()-Z"           | Numeric
- AVG-fBodyAcc-std()-X            | Average of "fBodyAcc-std()-X"            | Numeric
- AVG-fBodyAcc-std()-Y            | Average of "fBodyAcc-std()-Y"            | Numeric
- AVG-fBodyAcc-std()-Z            | Average of "fBodyAcc-std()-Z"            | Numeric
- AVG-fBodyAccJerk-mean()-X       | Average of "fBodyAccJerk-mean()-X"       | Numeric
- AVG-fBodyAccJerk-mean()-Y       | Average of "fBodyAccJerk-mean()-Y"       | Numeric
- AVG-fBodyAccJerk-mean()-Z       | Average of "fBodyAccJerk-mean()-Z"       | Numeric
- AVG-fBodyAccJerk-std()-X        | Average of "fBodyAccJerk-std()-X"        | Numeric
- AVG-fBodyAccJerk-std()-Y        | Average of "fBodyAccJerk-std()-Y"        | Numeric
- AVG-fBodyAccJerk-std()-Z        | Average of "fBodyAccJerk-std()-Z"        | Numeric
- AVG-fBodyAccMag-mean()          | Average of "fBodyAccMag-mean()"          | Numeric
- AVG-fBodyAccMag-std()           | Average of "fBodyAccMag-std()"           | Numeric
- AVG-fBodyBodyAccJerkMag-mean()  | Average of "fBodyBodyAccJerkMag-mean()"  | Numeric
- AVG-fBodyBodyAccJerkMag-std()   | Average of "fBodyBodyAccJerkMag-std()"   | Numeric
- AVG-fBodyBodyGyroJerkMag-mean() | Average of "fBodyBodyGyroJerkMag-mean()" | Numeric
- AVG-fBodyBodyGyroJerkMag-std()  | Average of "fBodyBodyGyroJerkMag-std()"  | Numeric
- AVG-fBodyBodyGyroMag-mean()     | Average of "fBodyBodyGyroMag-mean()"     | Numeric
- AVG-fBodyBodyGyroMag-std()      | Average of "fBodyBodyGyroMag-std()"      | Numeric
- AVG-fBodyGyro-mean()-X          | Average of "fBodyGyro-mean()-X"          | Numeric
- AVG-fBodyGyro-mean()-Y          | Average of "fBodyGyro-mean()-Y"          | Numeric
- AVG-fBodyGyro-mean()-Z          | Average of "fBodyGyro-mean()-Z"          | Numeric
- AVG-fBodyGyro-std()-X           | Average of "fBodyGyro-std()-X"           | Numeric
- AVG-fBodyGyro-std()-Y           | Average of "fBodyGyro-std()-Y"           | Numeric
- AVG-fBodyGyro-std()-Z           | Average of "fBodyGyro-std()-Z"           | Numeric
- AVG-tBodyAcc-mean()-X           | Average of "tBodyAcc-mean()-X"           | Numeric
- AVG-tBodyAcc-mean()-Y           | Average of "tBodyAcc-mean()-Y"           | Numeric
- AVG-tBodyAcc-mean()-Z           | Average of "tBodyAcc-mean()-Z"           | Numeric
- AVG-tBodyAcc-std()-X            | Average of "tBodyAcc-std()-X"            | Numeric
- AVG-tBodyAcc-std()-Y            | Average of "tBodyAcc-std()-Y"            | Numeric
- AVG-tBodyAcc-std()-Z            | Average of "tBodyAcc-std()-Z"            | Numeric
- AVG-tBodyAccJerk-mean()-X       | Average of "tBodyAccJerk-mean()-X"       | Numeric
- AVG-tBodyAccJerk-mean()-Y       | Average of "tBodyAccJerk-mean()-Y"       | Numeric
- AVG-tBodyAccJerk-mean()-Z       | Average of "tBodyAccJerk-mean()-Z"       | Numeric
- AVG-tBodyAccJerk-std()-X        | Average of "tBodyAccJerk-std()-X"        | Numeric
- AVG-tBodyAccJerk-std()-Y        | Average of "tBodyAccJerk-std()-Y"        | Numeric
- AVG-tBodyAccJerk-std()-Z        | Average of "tBodyAccJerk-std()-Z"        | Numeric
- AVG-tBodyAccJerkMag-mean()      | Average of "tBodyAccJerkMag-mean()"      | Numeric
- AVG-tBodyAccJerkMag-std()       | Average of "tBodyAccJerkMag-std()"       | Numeric
- AVG-tBodyAccMag-mean()          | Average of "tBodyAccMag-mean()"          | Numeric
- AVG-tBodyAccMag-std()           | Average of "tBodyAccMag-std()"           | Numeric
- AVG-tBodyGyro-mean()-X          | Average of "tBodyGyro-mean()-X"          | Numeric
- AVG-tBodyGyro-mean()-Y          | Average of "tBodyGyro-mean()-Y"          | Numeric
- AVG-tBodyGyro-mean()-Z          | Average of "tBodyGyro-mean()-Z"          | Numeric
- AVG-tBodyGyro-std()-X           | Average of "tBodyGyro-std()-X"           | Numeric
- AVG-tBodyGyro-std()-Y           | Average of "tBodyGyro-std()-Y"           | Numeric
- AVG-tBodyGyro-std()-Z           | Average of "tBodyGyro-std()-Z"           | Numeric
- AVG-tBodyGyroJerk-mean()-X      | Average of "tBodyGyroJerk-mean()-X"      | Numeric
- AVG-tBodyGyroJerk-mean()-Y      | Average of "tBodyGyroJerk-mean()-Y"      | Numeric
- AVG-tBodyGyroJerk-mean()-Z      | Average of "tBodyGyroJerk-mean()-Z"      | Numeric
- AVG-tBodyGyroJerk-std()-X       | Average of "tBodyGyroJerk-std()-X"       | Numeric
- AVG-tBodyGyroJerk-std()-Y       | Average of "tBodyGyroJerk-std()-Y"       | Numeric
- AVG-tBodyGyroJerk-std()-Z       | Average of "tBodyGyroJerk-std()-Z"       | Numeric
- AVG-tBodyGyroJerkMag-mean()     | Average of "tBodyGyroJerkMag-mean()"     | Numeric
- AVG-tBodyGyroJerkMag-std()      | Average of "tBodyGyroJerkMag-std()"      | Numeric
- AVG-tBodyGyroMag-mean()         | Average of "tBodyGyroMag-mean()"         | Numeric
- AVG-tBodyGyroMag-std()          | Average of "tBodyGyroMag-std()"          | Numeric
- AVG-tGravityAcc-mean()-X        | Average of "tGravityAcc-mean()-X"        | Numeric
- AVG-tGravityAcc-mean()-Y        | Average of "tGravityAcc-mean()-Y"        | Numeric
- AVG-tGravityAcc-mean()-Z        | Average of "tGravityAcc-mean()-Z"        | Numeric
- AVG-tGravityAcc-std()-X         | Average of "tGravityAcc-std()-X"         | Numeric
- AVG-tGravityAcc-std()-Y         | Average of "tGravityAcc-std()-Y"         | Numeric
- AVG-tGravityAcc-std()-Z         | Average of "tGravityAcc-std()-Z"         | Numeric
- AVG-tGravityAccMag-mean()       | Average of "tGravityAccMag-mean()"       | Numeric
- AVG-tGravityAccMag-std()        | Average of "tGravityAccMag-std()"        | Numeric
+ Column   | Meaning                       | Type / Value
+ -------- | ----------------------------- | ------------------------
+ Subject  | ID of the experiment subject  | Factor (int)
+ Activity | Activity description          | Factor (char)
+ Domain   | Domain of feature measurement | Factor (Time / Frequency)
+ Feature  | Subset of original features   | character
+ Average  | Average value of Feature      | numeric
+ 
+ The full list of list of Feature is given as follow:
+  Feature                   | Feature                    | Feature
+  ------------------------- | -------------------------- | --------------------------
+  BodyAcc-mean()-X          | BodyAcc-mean()-Y           | BodyAcc-mean()-Z          
+  BodyAcc-std()-X           | BodyAcc-std()-Y            | BodyAcc-std()-Z           
+  BodyAccJerk-mean()-X      | BodyAccJerk-mean()-Y       | BodyAccJerk-mean()-Z      
+  BodyAccJerk-std()-X       | BodyAccJerk-std()-Y        | BodyAccJerk-std()-Z       
+  BodyAccMag-mean()         | BodyAccMag-std()           | BodyBodyAccJerkMag-mean() 
+  BodyBodyAccJerkMag-std()  | BodyBodyGyroJerkMag-mean() | BodyBodyGyroJerkMag-std() 
+  BodyBodyGyroMag-mean()    | BodyBodyGyroMag-std()      | BodyGyro-mean()-X         
+  BodyGyro-mean()-Y         | BodyGyro-mean()-Z          | BodyGyro-std()-X          
+  BodyGyro-std()-Y          | BodyGyro-std()-Z           | BodyAccJerkMag-mean()     
+  BodyAccJerkMag-std()      | BodyGyroJerk-mean()-X      | BodyGyroJerk-mean()-Y     
+  BodyGyroJerk-mean()-Z     | BodyGyroJerk-std()-X       | BodyGyroJerk-std()-Y      
+  BodyGyroJerk-std()-Z      | BodyGyroJerkMag-mean()     | BodyGyroJerkMag-std()     
+  BodyGyroMag-mean()        | BodyGyroMag-std()          | GravityAcc-mean()-X       
+  GravityAcc-mean()-Y       | GravityAcc-mean()-Z        | GravityAcc-std()-X        
+  GravityAcc-std()-Y        | GravityAcc-std()-Z         | GravityAccMag-mean()      
+  GravityAccMag-std()       |                             |
+ 
+## Possible improvement ##
+
+ 1. Further separation of `Feature` into `variable`, `statistics` (mean or std), and `axis` (x, y, z, all)
